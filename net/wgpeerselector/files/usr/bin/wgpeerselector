@@ -297,7 +297,7 @@ function WGPeerSelector:sync_ntp()
 	end
 
 	if #dns_results < 1 then
-		log(syslog.LOG_WARNING, "no (valid) dns result for ntp servers. skipping time sync.")
+		log(syslog.LOG_WARNING, "No (valid) DNS result for ntp servers. Skipping time sync.")
 		return false
 	end
 
@@ -305,9 +305,9 @@ function WGPeerSelector:sync_ntp()
 	local time_synced = os.execute(command) == 0
 
 	if not time_synced then
-		log(syslog.LOG_WARNING, "Time synchonization failed.")
+		log(syslog.LOG_WARNING, "Time synchronization failed.")
 	else
-		log(syslog.LOG_INFO, "Time synchonization was successful.")
+		log(syslog.LOG_INFO, "Time synchronization was successful.")
 	end
 
 	return time_synced
@@ -392,7 +392,7 @@ function WGPeerSelector:main()
 
 			if not connected_peer:has_recent_handshake() then
 				connected_peer:uninstall_from_kernel()
-				log(syslog.LOG_INFO, 'Connection to '..connected_peer.name..' lost.')
+				log(syslog.LOG_INFO, 'Lost connection to '..connected_peer.name..'.')
 				connected_peer = nil
 			else
 				-- check connections every 5 seconds
@@ -471,13 +471,13 @@ syslog.openlog('wgpeerselector', 0, syslog.LOG_DAEMON)
 if change_group_to then
 	local g = grp.getgrnam(change_group_to)
 	if not g then
-		log(syslog.LOG_ERR, "unable to find unix group '"..change_group_to.."'")
+		log(syslog.LOG_ERR, "Unable to find unix group '"..change_group_to.."'")
 		os.exit(1)
 	end
 
 	local ok, err = unistd.setpid('g', g.gr_gid)
 	if ok ~= 0 then
-		log(syslog.LOG_ERR, "unable to change unix group: " .. err)
+		log(syslog.LOG_ERR, "Unable to change unix group: " .. err)
 		os.exit(1)
 	end
 end
