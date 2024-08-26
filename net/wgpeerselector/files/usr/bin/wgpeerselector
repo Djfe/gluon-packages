@@ -369,6 +369,10 @@ function WGPeerSelector:main()
 			-- Another possibility, if a boot counter is implemented is outlined here:
 			-- https://lists.zx2c4.com/pipermail/wireguard/2019-February/003850.html
 			time_synchronized = self:sync_ntp()
+			if time_synchronized then
+				-- reseed now that we got an accurate time (assures randomness)
+				math.randomseed(os.time())
+			end
 		end
 
 		if #self.queued_peers < 1 then
